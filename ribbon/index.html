@@ -1,0 +1,93 @@
+
+<html>
+<head>
+<script src="processing.js"></script>
+<script src="init.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	background-color: #000000;
+}
+
+canvas{
+background-color: #000000;
+}
+
+p
+{
+	color:#FFFFFF;
+}
+
+</style>
+<title>HTML 5 + Processing</title>
+</head>
+
+<body>
+
+<script type="application/processing">
+
+Spot[] spots = new Spot[200];
+
+void setup(){
+  size(window.innerWidth, window.innerHeight);
+  background(0);
+  noStroke();
+  smooth();
+
+  for(int a = 0; a<spots.length; a++){
+    Spot newSpot = new Spot(a);
+    spots[a] = newSpot;
+  }
+}
+
+void draw() {
+  for(int i = 0; i<spots.length; i++){
+    spots[i].mover(mouseX, mouseY);
+    spots[i].draw();
+  }
+}
+
+void mousePressed(){
+  background(0);
+}
+
+class Spot 
+{
+  float x, y, speed;
+  color c;
+  int id;
+
+  Spot(int _id) {
+    id = _id;
+    speed = random(-30, 30);
+    c = color(random(255),random(255),random(255));
+  }
+
+  void mover(float _x, float _y) {
+    x += (_x-x)/speed;
+    y += (_y-y)/speed;
+  }
+
+  void draw() {
+    fill(c);
+    y += id % 2 == 0 ? 2 : -2;
+    ellipse(x,y,1,1);
+  }
+}
+</script>
+<canvas>
+<p>no HTML 5 for you, get rid of your browser...</p>
+</canvas>
+
+</body>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1605069-8");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</html>

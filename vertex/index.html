@@ -1,0 +1,94 @@
+<html>
+<head>
+<script src="processing.js"></script>
+<script src="init.js"></script>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+    _uacct = "UA-1605069-1";
+    urchinTracker();
+</script>
+
+
+
+<style type="text/css">
+body {
+	margin: 0px;
+	background-color: #cccccc;
+}
+</style>
+<title>HTML 5 + Processing</title>
+</head>
+
+<body>
+<script type="application/processing">
+
+myCanvas = document.getElementsByTagName("canvas")[0];
+
+myCanvas.style.width="100%";
+myCanvas.style.height="100%";
+	
+myCanvas.width=myCanvas.offsetWidth;
+myCanvas.height=myCanvas.offsetHeight;
+	
+			
+class Point{
+  float x;
+  float y;
+  Point(float _x, float _y){
+    x = _x;
+    y = _y;
+  } 
+}
+
+Point[] pts = new Point[25];
+int count = 0;
+color c = color(random(255),random(255),random(255));
+
+void setup(){
+  size(window.innerWidth, window.innerHeight);
+  frameRate(60);
+  smooth();
+}
+
+void draw(){
+  background(0);
+  fill(c);
+  
+  if(count > 24) {
+    count = 0;
+	c = color(random(255),random(255),random(255));
+  }
+
+  Point newPoint = new Point(mouseX, mouseY);
+  pts[count] = newPoint;
+  count++;
+	
+  beginShape();
+
+  for(int i = 1; i<pts.length-1; i++){
+    if(pts[i] != null && mouseX != 0 && mouseY != 0){
+	  stroke(c, 100);
+      line(mouseX, mouseY, pts[i].x, pts[i].y);
+    }
+  }
+
+  endShape();
+}
+
+</script>
+<canvas>
+<p>no HTML 5 for you</p>
+</canvas>
+</body>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1605069-8");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</html>
