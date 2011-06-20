@@ -17,9 +17,10 @@ var mouseX = 0,
 	renderer,
 	
 	renderColor = 0x000000,
-	particleSize = 1,
 	
 	pS = [],
+	totalParticles = 0,
+	tP,
 	
 	CAMERA_POS = 300,
 	VIEW_ANGLE = 45, 
@@ -93,6 +94,12 @@ function setup ()
 	gui.domElement.style.height = "125px";
 	gui.domElement.style.overflow = "hidden";
 	document.body.appendChild(gui.domElement);
+	
+	// total particles
+	tP = document.createElement('div');
+	tP.id = "totalParticles";
+	tP.innerHTML = "Running " +  totalParticles + " particles with WebGLRenderer";
+	document.body.appendChild(tP);
 
 	// update
 	update();
@@ -101,6 +108,8 @@ function setup ()
 function createParticleEmiter(x, y)
 {
 	var particleHolder = new THREE.Geometry();
+	
+	totalParticles += PROPS.amount;
 	
 	for(var i = 0; i<PROPS.amount; i++)
 	{
@@ -141,6 +150,7 @@ function render ()
 	}
 	
 	TWEEN.update();
+	tP.innerHTML = "Running " +  totalParticles + " particles with WebGLRenderer";
 	renderer.render(scene, camera);
 }
 
