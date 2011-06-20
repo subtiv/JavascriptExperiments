@@ -3,3 +3,14 @@ html, body
 	margin: 0px;
 	overflow: hidden;
 }
+
+#totalParticles
+{
+	font-family: Helvetica;
+	font-size: 10pt;
+	color: #FFFFFF;
+	position: fixed;
+	text-align : center;
+	top: 15px;
+	left: 100px;
+}
