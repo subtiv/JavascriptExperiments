@@ -57,11 +57,9 @@ Detector = {
 		domElement.style.width = '475px';
 		domElement.style.margin = '5em auto 0';
 
-		if ( ! this.webgl ) {
+		if ( ! this.webkitAudioContext ) {
 
-			domElement.innerHTML = window.WebGLRenderingContext ? [
-				'Sorry, your browser doesn\'t support <a href="http://chromium.googlecode.com/svn/trunk/samples/audio/index.html"> Web Audio API.</a>'
-			].join( '\n' ) : [
+			domElement.innerHTML = [
 				'Sorry, your browser doesn\'t support <a href="http://chromium.googlecode.com/svn/trunk/samples/audio/index.html">Web Audio API.</a><br/>',
 				'Note: when first running Chrome, the "Web Audio" feature must be enabled by going to about:flags (type "about:flags" in the link field), enabling "Web Audio", and finally clicking the restart button at the bottom of the page.',
 				'Please try with',

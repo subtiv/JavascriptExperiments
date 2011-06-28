@@ -7,14 +7,16 @@ if (!Detector.audioAPI) Detector.addGetAudioMessage();
 
 var types = {
 	PARTICLES : "particles",
-	LINES : "lines"
+	LINES : "lines",
+	WAVE: "wave",
+	CENTRAL: "central"
 }
 
 var context, 
 	stage, 
 	source, 
 	inputArrayL,
-	sizeArray = 300,
+	sizeArray = 400,
 	analyser;
 
 var mouseX = 0, 
@@ -41,7 +43,7 @@ var mouseX = 0,
 	FAR = 5000;
 	
 var guiParams = {
-	type : types.PARTICLES,
+	type : types.WAVE,
 	music: "test.ogg"
 };
 
@@ -117,11 +119,11 @@ function setup ()
 function gui()
 {
 	// GUI
-//	DAT.GUI.autoPlace = 0;
+	DAT.GUI.autoPlace = 0;
 	
 	var gui = new DAT.GUI();
 	gui.add(guiParams, 'type')
-		.options({'Particles': types.PARTICLES, 'Lines': types.LINES})
+		.options({'Wave': types.WAVE, 'Central Lines': types.CENTRAL, 'Particles': types.PARTICLES, 'Bubble Lines': types.LINES})
 		.onChange(function(newValue) {
 	  		draw();
 		}
@@ -134,12 +136,13 @@ function gui()
 		}
 	);
 	
-//	gui.domElement.style.position = "fixed";
-//	gui.domElement.style.top = "50px";
-//	gui.domElement.style.width = "240px";
-//	gui.domElement.style.height = "125px";
-//	gui.domElement.style.overflow = "hidden";
-//	document.body.appendChild(gui.domElement);
+	gui.domElement.style.position = "fixed";
+	gui.domElement.style.backgroundColor = '#000000';
+	gui.domElement.style.top = "50px";
+	gui.domElement.style.width = "240px";
+	gui.domElement.style.height = "125px";
+	gui.domElement.style.overflowY = "hidden";
+	document.body.appendChild(gui.domElement);
 }
 
 // Process audio data
@@ -206,6 +209,16 @@ function updateSpectrum()
 			case types.LINES:
 				new TWEEN.Tween(lines[i].scale).to({x: inputArrayL[i], y: inputArrayL[i]}, 50).start();
 				break;
+				
+			case types.WAVE:
+				var p = Math.abs(inputArrayL[i]) * -1;
+				new TWEEN.Tween(lines[i].scale).to({y: p / 1.5}, 50).start();
+				break;
+				
+			case types.CENTRAL:
+				var p = inputArrayL[i];
+				new TWEEN.Tween(lines[i].scale).to({y: p / 2}, 50).start();
+				break;
 		}
 		
 	}
@@ -213,7 +226,9 @@ function updateSpectrum()
 
 function clean()
 {
+	scene = null;
 	scene = new THREE.Scene();
+	lines = [];
 	scene.update();
 }
 
@@ -222,7 +237,9 @@ function draw()
 {
 	clean();
 	
-	var radius = 3;
+	var radius = WIDTH / sizeArray;
+	console.log(radius);
+	
 	geometry =  new THREE.Geometry();
 	pMaterial = new THREE.ParticleBasicMaterial({ color: 0xFFFFFF * Math.random(), size: radius });
 	
@@ -250,7 +267,29 @@ function draw()
 
 				g.vertices.push( new THREE.Vertex( vector2 ) );
 
-				var line = new THREE.Line( g, new THREE.LineBasicMaterial( { color: 0xffffff * Math.random(), opacity: Math.random() } ) );
+				var line = new THREE.Line( g, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: Math.random() } ) );
+				lines.push(line);
+				scene.addObject( line );
+				break;
+				
+			case types.CENTRAL:
+				var g =  new THREE.Geometry();
+				g.vertices.push( new THREE.Vertex( new THREE.Vector3( (i * radius) - WIDTH / 2,-HEIGHT/2,0) ) );
+				g.vertices.push( new THREE.Vertex( new THREE.Vector3( (i * radius) - WIDTH / 2,0, 0) ) );
+				
+				var line = new THREE.Line( g, new THREE.LineBasicMaterial( { color: 0xFF0000, opacity: 1, blending: THREE.AdditiveBlending} ) );
+				line.scale.y = 0;
+				lines.push(line);
+				scene.addObject( line );
+				break;
+				
+			case types.WAVE:
+				var g =  new THREE.Geometry();
+				g.vertices.push( new THREE.Vertex( new THREE.Vector3( (i * radius) - WIDTH / 2,-HEIGHT/4,0) ) );
+				g.vertices.push( new THREE.Vertex( new THREE.Vector3( (i * radius) - WIDTH / 2,-HEIGHT/2, 0)) );
+				
+				var line = new THREE.Line( g, new THREE.LineBasicMaterial( { color: 0xFFF000, opacity: 1, blending: THREE.AdditiveBlending} ) );
+				
 				lines.push(line);
 				scene.addObject( line );
 				break;
@@ -276,7 +315,7 @@ function update()
 
 function render ()
 {
-	//camera.position.x += ( mouseX - camera.position.x ) * .05;
+//	camera.position.x += ( mouseX - camera.position.x ) * .05;
 //	camera.position.y += ( - mouseY + 200 - camera.position.y ) * .05;
 //	camera.updateMatrix();
 
