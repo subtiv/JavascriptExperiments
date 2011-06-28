@@ -97,9 +97,6 @@ function setup ()
 
 	// add renderer to stage
 	container.addChild(renderer);
-	
-	// draw
-	draw();
 		
 	// load music
 	load(guiParams.music);
@@ -182,6 +179,7 @@ function load(url)
 	{
 		source.buffer = context.createBuffer(request.response, false);
 		source.noteOn(0);
+		draw();
 		stage.removeChild(loading);
 	};
 	
