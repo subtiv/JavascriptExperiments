@@ -4,3 +4,10 @@ html, body
 	overflow: hidden;
 	background-color:#000000
 }
+
+p
+{
+	font-size:11px;
+	font-family:'Helvetica Neue',Arial,Helvetica,sans-serif sans-serif;
+	color: #FFFFFF;
+}

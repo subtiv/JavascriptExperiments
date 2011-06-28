@@ -41,7 +41,7 @@ var mouseX = 0,
 	FAR = 5000;
 	
 var guiParams = {
-	type : types.LINES,
+	type : types.PARTICLES,
 	music: "test.ogg"
 };
 
@@ -124,7 +124,7 @@ function gui()
 	
 	var gui = new DAT.GUI();
 	gui.add(guiParams, 'type')
-		.options({'Lines': types.LINES, 'Particles': types.PARTICLES})
+		.options({'Particles': types.PARTICLES, 'Lines': types.LINES})
 		.onChange(function(newValue) {
 	  		draw();
 		}
@@ -169,6 +169,12 @@ function process(event)
 // load
 function load(url) 
 {
+	loading = new Sprite('loading');
+	loading.position('fixed');
+	loading.dom.style.bottom = "40px";
+	loading.dom.style.left = "32px";
+	stage.addChild(loading);
+	
 	var request = new XMLHttpRequest();
     request.open("GET", url, true);
     request.responseType = "arraybuffer";
@@ -176,7 +182,15 @@ function load(url)
 	{
 		source.buffer = context.createBuffer(request.response, false);
 		source.noteOn(0);
+		stage.removeChild(loading);
 	};
+	
+	request.onprogress = function(e)
+	{
+		var currentpercent = Math.round((e.position/e.totalSize) * 100);
+		loading.html("<p>Loading tune: "+ currentpercent + "%</p>");
+	};
+	
     request.send();
 }
 
