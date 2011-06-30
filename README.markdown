@@ -15,8 +15,8 @@ Featured Javascript Experiments
 		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/ribbon" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/ribbon/thumb.jpg"></a></td>
 		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/spot" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/spot/thumb.jpg"></a></td>
 		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/webgl/004" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/webgl/004/thumb.jpg"></a></td>
-		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/trip/" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/trip/thumb.jpg"></a>CacildsJS + Google Maps</td>
-		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/webgl/005/" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/webgl/005/thumb.jpg"></a>WebGL + Three.js + WebAudio API</td>
+		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/trip/" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/trip/thumb.jpg"></a></td>
+		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/webgl/005/" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/webgl/005/thumb.jpg"></a></td>
 	</tr>
 	<tr>
 		<td><font size="8">Processing</font></td>
