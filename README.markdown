@@ -18,12 +18,4 @@ Featured Javascript Experiments
 		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/trip/" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/trip/thumb.jpg"></a></td>
 		<td><a href="http://silviopaganini.github.com/JavascriptExperiments/webgl/005/" target="_blank"><img src="http://silviopaganini.github.com/JavascriptExperiments/webgl/005/thumb.jpg"></a></td>
 	</tr>
-	<tr>
-		<td><font size="8">Processing</font></td>
-		<td><font size="8">Processing</font></td>
-		<td><font size="8">Javascript + CSS</font></td>
-		<td><font size="8">WebGL + Three.js</font></td>
-		<td><font size="8">CacildsJS + Google Maps</font></td>
-		<td><font size="8">WebGL + Three.js + WebAudio API</font></td>
-	</tr>
 </table>
