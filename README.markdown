@@ -24,6 +24,6 @@ Featured Javascript Experiments
 		<td><font size="8">Javascript + CSS</font></td>
 		<td><font size="8">WebGL + Three.js</font></td>
 		<td><font size="8">CacildsJS + Google Maps</font></td>
-		<td><font size="8">>WebGL + Three.js + WebAudio API</font></td>
+		<td><font size="8">WebGL + Three.js + WebAudio API</font></td>
 	</tr>
 </table>
