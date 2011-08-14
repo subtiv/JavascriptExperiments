@@ -4,10 +4,14 @@ TopLayer = function ()
 	this.dom = document.createElement('div');
 	this.dom.parent = this;
 
-	var resultsText;
+	this.resultsText  = new CACILDS.Sprite();
+	this.input 		  = new CACILDS.Input();
+	this.form 		  = new CACILDS.Sprite();
+	this.tf  		  = new CACILDS.Sprite();
+	this.browseButton = new CACILDS.Sprite();
+	this.clearButton  = new CACILDS.Sprite();
 
 	this.draw();
-
 }
 
 TopLayer.prototype = new CACILDS.Display();
@@ -19,39 +23,44 @@ TopLayer.prototype.draw = function()
 		margin : "10px",
 	})
 
-	tf = new CACILDS.Sprite();
-	tf.style({
+	this.tf.style({
 		color : "#FFFFFF"
 	})
-	tf.html("Choose the tag");
-	this.addChild(tf);
+	this.tf.html("Choose the tag");
+	this.addChild(this.tf);
 
-	form = new CACILDS.Sprite();
-	form.style({
+	this.form.style({
 		margin: "2px",
 		marginTop: "5px"
 	});
 
-	input = new CACILDS.Input();
-	input.style({
+	this.input.style({
 		float: "left",
 		clear : "left"
 	})
-	input.value('checkin');
+	this.input.value('VaiCorinthians');
 	
-	form.addChild(input);
+	this.form.addChild(this.input);
 
-	browseButton = new CACILDS.Sprite();
-	browseButton.style({
+	this.browseButton.style({
 		marginTop: '1px',
 		float : "left"
 	});
-	browseButton.html('<input type="submit" value="Submit" />');
-	browseButton.addEventListener('click', this.onBrowseClick);
+	this.browseButton.html('<input type="submit" value="Submit" />');
+	this.browseButton.addEventListener('click', this.onBrowseClick);
 
-	form.addChild(browseButton);
+	this.form.addChild(this.browseButton);
 
-	this.resultsText = new CACILDS.Sprite();
+
+	this.clearButton.style({
+		marginTop: '1px',
+		float : "left"
+	});
+	this.clearButton.html('<input type="submit" value="Clear" />');
+	this.clearButton.addEventListener('click', this.onClearClick);
+
+	this.form.addChild(this.clearButton);
+
 	this.resultsText.style({
 		float : "left",
 		marginLeft : "4px",
@@ -59,7 +68,7 @@ TopLayer.prototype.draw = function()
 		color : "#FFFFFF"
 	})
 
-	this.addChild(form);
+	this.addChild(this.form);
 
 	this.addChild(this.resultsText);
 }
@@ -67,13 +76,41 @@ TopLayer.prototype.draw = function()
 TopLayer.prototype.onBrowseClick = function(e)
 {
 	e.preventDefault();
+
 	var event = document.createEvent("Event");
   	event.initEvent("submitTag", true, true);
-  	event.customData = input.value();
+  	event.customData = topSearch.getInputValue();
   	this.dispatchEvent(event);
 }
 
-TopLayer.prototype.updateResults = function(r)
+TopLayer.prototype.onClearClick = function(e)
 {
-	this.resultsText.html("<p>" + r + " tweets found </p>");
+	e.preventDefault();
+
+	topSearch.clear();
+	topSearch.updateInput("");
+
+	var event = document.createEvent("Event");
+  	event.initEvent("clear", true, true);
+  	this.dispatchEvent(event);
+}
+
+TopLayer.prototype.getInputValue = function()
+{
+	return this.input.value();
+}
+
+TopLayer.prototype.updateResults = function(totalTweets, geoTweets)
+{
+	this.resultsText.html("<p>" + totalTweets + " tweets found / " + geoTweets + " tweets geo located </p>");
+}
+
+TopLayer.prototype.clear = function()
+{
+	this.resultsText.html("<p></p>");
+}
+
+TopLayer.prototype.updateInput = function(p)
+{
+	this.input.value(p);
 }

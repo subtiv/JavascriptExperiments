@@ -8,6 +8,14 @@ var map_canvas,
     l = 0,
     map;
 
+var query = {
+    rpp : 100,
+    page : 1,
+    count : 100,
+    result_type : "mixed",
+    show_user : true
+}
+
 $(document).ready(function() {
 
 	stage = new CACILDS.Stage();
@@ -20,7 +28,8 @@ $(document).ready(function() {
         height   : "70px"
     });
 
-    topSearch.addEventListener("submitTag", submitTagHandler)
+    topSearch.addEventListener("submitTag", submitTagHandler);
+    topSearch.addEventListener("clear", clear);
 
     stage.addChild(topSearch);
 
@@ -54,14 +63,40 @@ $(document).ready(function() {
    
     map.setCenter(new google.maps.LatLng(0, 0));
 
+    // Get Hash
+
+    if(window.location.hash) {
+        var hash = window.location.hash.split("#").join("");
+        searchQuery(hash);
+        topSearch.updateInput(hash);
+    }
 });
+
+function clear(e)
+{
+    for (i in markers) markers[i].setMap(null);
+    markers = [];
+    results = [];
+    infoPanels = [];
+    l = 0;
+}
 
 function submitTagHandler(e) 
 {
     e.preventDefault();
-    
+    searchQuery(e.customData);
+}
+
+function searchQuery(q)
+{
+    topSearch.clear();
+
+    var tweetQuery = "http://search.twitter.com/search.json?";
+    for(var n in query) tweetQuery += n + "=" + query[n] + "&";
+    tweetQuery += "q=" + q;
+
     $.ajax({
-        url: "http://search.twitter.com/search.json?q="+e.customData+"&result_type=recent&count=20&show_user=true",
+        url: tweetQuery,
         dataType: "jsonp",
         jsonpCallback: "onLoad"
     });
@@ -69,11 +104,14 @@ function submitTagHandler(e)
 
 function onLoad (data) { 
 	var items = [],
-        prev = l;
+        prev = l,
+        totalTweets = 0;
 
 	$.each(data.results,function(i,tweet){
 
        var geo = getGeo(tweet.geo);
+       totalTweets++;
+
        if(geo != "")
        {
            var latLng = new google.maps.LatLng(getGeo(tweet.geo)[0], getGeo(tweet.geo)[1]);
@@ -110,7 +148,7 @@ function onLoad (data) {
        }
 	});
 
-    topSearch.updateResults(l - prev);
+    topSearch.updateResults(totalTweets, l - prev);
 }
 
 function showInfoPanel(lat, lng, info, marker, i)
