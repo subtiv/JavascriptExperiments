@@ -38,7 +38,7 @@ TopLayer.prototype.draw = function()
 		float: "left",
 		clear : "left"
 	})
-	this.input.value('VaiCorinthians');
+	this.input.value('');
 	
 	this.form.addChild(this.input);
 
