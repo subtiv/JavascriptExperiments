@@ -6,6 +6,9 @@ var map_canvas,
     markers = [],
     results = [],
     l = 0,
+    lastQuery,
+    autoUpdateFlag = false,
+    intervalAutoUpdate = 0,
     map;
 
 var query = {
@@ -30,7 +33,8 @@ $(document).ready(function() {
 
     topSearch.addEventListener("submitTag", submitTagHandler);
     topSearch.addEventListener("clear", clear);
-
+    topSearch.addEventListener("autoUpdateChange", onAutoUpdateChange);
+    
     stage.addChild(topSearch);
 
 	 // creating map
@@ -95,6 +99,9 @@ function searchQuery(q)
     for(var n in query) tweetQuery += n + "=" + query[n] + "&";
     tweetQuery += "q=" + q;
 
+    window.location.hash = q;
+    lastQuery = q;
+
     $.ajax({
         url: tweetQuery,
         dataType: "jsonp",
@@ -146,17 +153,33 @@ function onLoad (data) {
 
             l++;
        }
+
+       if(autoUpdateFlag) {
+            query.result_type = "recent";
+            intervalAutoUpdate = setTimeout(searchQuery, 15000, lastQuery);
+        } else {
+            intervalAutoUpdate = 0;
+        }
+
 	});
 
     topSearch.updateResults(totalTweets, l - prev);
+}
+
+function onAutoUpdateChange(e)
+{
+    e.preventDefault();
+
+    autoUpdateFlag = e.customData == true || e.customData == "true";
+
+    if(autoUpdateFlag) searchQuery(lastQuery);
+    else query.result_type = "mixed";
 }
 
 function showInfoPanel(lat, lng, info, marker, i)
 {
     info.setContent(returnFormatedTweet(results[i]));
     info.open(map, marker);
-    
-    //map.setCenter(latlng);
 }
 
 function addAnchors(text)
